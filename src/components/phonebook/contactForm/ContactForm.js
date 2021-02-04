@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useDispatch} from "react-redux";
-import {addContact} from "../../../redux/reducers/contactsReducer";
+import {addContactOperation} from "../../../redux/operations/contactOperations";
 import Form from "./ContactFormStyled";
 
 const ContactForm = ({contacts, contactExists}) => {
@@ -24,7 +24,7 @@ const ContactForm = ({contacts, contactExists}) => {
         if (contacts.find(contact => contact.name === state.name)) {
             contactExists();
         } else {
-            dispatch(addContact({...state}));
+            dispatch(addContactOperation({...state}));
             setState({name: "", number: ""});
         }
     };

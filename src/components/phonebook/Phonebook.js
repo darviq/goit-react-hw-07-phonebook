@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
+import {loadContactsOperation} from "../../redux/operations/contactOperations";
 import ContactForm from "./contactForm/ContactForm";
 import Filter from "./filter/Filter";
 import ContactList from "./contactList/ContactList";
 import Notification from "./notification/Notification";
 import {Div, H1} from "./PhonebookStyled";
-import {addLocalContacts} from "../../redux/reducers/contactsReducer";
 
 const Phonebook = () => {
     const [state, setState] = useState({
@@ -13,18 +13,12 @@ const Phonebook = () => {
     });
 
     const contacts = useSelector(state => state.contacts.items);
+    const loading = useSelector(state => state.contacts.loading);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const localSorageContacts = JSON.parse(localStorage.getItem("contacts"));
-        if (localSorageContacts && localSorageContacts.length > 0) {
-            dispatch(addLocalContacts([...localSorageContacts]));
-        }
+        dispatch(loadContactsOperation());
     }, []);
-
-    useEffect(() => {
-        localStorage.setItem("contacts", JSON.stringify(contacts));
-    }, [contacts]);
 
     const contactExists = () => {
         setState({showNotification: true});
@@ -36,7 +30,7 @@ const Phonebook = () => {
     return (
         <Div>
             <H1 in={true} appear timeout={500}>
-                Phonebook
+                {loading ? "Loading..." : "Phonebook"}
             </H1>
             <ContactForm contacts={contacts} contactExists={contactExists} />
             {contacts.length > 0 && (
