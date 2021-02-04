@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {loadContactsOperation} from "../../redux/operations/contactOperations";
+import contactsSelector from "../../redux/selectors/contacts-selectors";
 import ContactForm from "./contactForm/ContactForm";
 import Filter from "./filter/Filter";
 import ContactList from "./contactList/ContactList";
@@ -12,8 +13,8 @@ const Phonebook = () => {
         showNotification: false,
     });
 
-    const contacts = useSelector(state => state.contacts.items);
-    const loading = useSelector(state => state.contacts.loading);
+    const contacts = useSelector(state => contactsSelector.getContacts(state));
+    const loading = useSelector(state => contactsSelector.getLoadingStatus(state));
     const dispatch = useDispatch();
 
     useEffect(() => {
