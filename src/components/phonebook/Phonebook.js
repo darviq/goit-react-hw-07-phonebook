@@ -13,8 +13,8 @@ const Phonebook = () => {
         showNotification: false,
     });
 
-    const contacts = useSelector(state => contactsSelector.getContacts(state));
-    const loading = useSelector(state => contactsSelector.getLoadingStatus(state));
+    const contacts = useSelector(contactsSelector.getContacts);
+    const loading = useSelector(contactsSelector.getLoadingStatus);
     const dispatch = useDispatch();
 
     useEffect(() => {
